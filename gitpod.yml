@@ -1,6 +1,17 @@
 # .gitpod.yml
 tasks:
   - init: |
-      chmod +x deploy.sh  # Đảm bảo file có quyền thực thi
-      ./deploy.sh         # Chạy script tự động khi workspace khởi động
+      # Kiểm tra sự tồn tại của deploy.sh
+      if [ -f deploy.sh ]; then
+        chmod +x deploy.sh
+        echo "Running deploy.sh..."
+        ./deploy.sh
+      else
+        echo "Error: deploy.sh not found in the root directory!"
+        exit 1
+      fi
     command: echo "Gitpod workspace is ready!"
+
+# Đảm bảo PATH cho các công cụ
+env:
+  PATH: "${PATH}:${HOME}/.cargo/bin:${HOME}/.seismic/bin:${HOME}/.bun/bin"
